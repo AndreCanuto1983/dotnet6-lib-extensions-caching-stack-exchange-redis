@@ -18,6 +18,7 @@ namespace AnotherWayToImplementRedis.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(UserModel), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(IActionResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Set(UserModel user, CancellationToken cancellationToken)
         {
             if (user.IsValid())
@@ -28,16 +29,17 @@ namespace AnotherWayToImplementRedis.Controllers
             return Created("","");
         }
 
-        [HttpGet("{userId}")]        
+        [HttpGet("{cpfCnpj}")]        
         [ProducesResponseType(typeof(UserModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(IActionResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(IActionResult), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Get(string userId, CancellationToken cancellationToken)
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Get(string cpfCnpj, CancellationToken cancellationToken)
         {
-            if (string.IsNullOrEmpty(userId))
+            if (string.IsNullOrEmpty(cpfCnpj))
                 return BadRequest();
 
-            var response = await _userRepository.GetUserAsync(userId, cancellationToken);
+            var response = await _userRepository.GetUserAsync(cpfCnpj, cancellationToken);
 
             if (response == null)
                 return NotFound();
@@ -49,6 +51,7 @@ namespace AnotherWayToImplementRedis.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(IActionResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(IActionResult), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Update(UserModel user, CancellationToken cancellationToken)
         {
             if (user.IsValid())
@@ -59,16 +62,17 @@ namespace AnotherWayToImplementRedis.Controllers
             return Ok();
         }
 
-        [HttpDelete("{userId}")]
+        [HttpDelete("{cpfCnpj}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(IActionResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(IActionResult), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Delete(string userId, CancellationToken cancellationToken)
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Delete(string cpfCnpj, CancellationToken cancellationToken)
         {
-            if (string.IsNullOrEmpty(userId))
+            if (string.IsNullOrEmpty(cpfCnpj))
                 return BadRequest();
 
-            await _userRepository.DeleteUserAsync(userId, cancellationToken);
+            await _userRepository.DeleteUserAsync(cpfCnpj, cancellationToken);
 
             return Ok();
         }

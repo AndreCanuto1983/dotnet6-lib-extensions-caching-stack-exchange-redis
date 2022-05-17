@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace AnotherWayToImplementRedis.Models
 {
@@ -9,6 +10,8 @@ namespace AnotherWayToImplementRedis.Models
         [MaxLength(14, ErrorMessage = "Cpf/Cnpj must not be longer than 14 characters")]
         public string cpfCnpj { get; set; }
         public string Name { get; set; }
+
+        [JsonIgnore]
         public string Datetime { get; set; } = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
 
         public bool IsValid()
