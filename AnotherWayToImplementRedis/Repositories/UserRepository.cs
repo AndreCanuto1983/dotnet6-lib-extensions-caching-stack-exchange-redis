@@ -23,28 +23,28 @@ namespace AnotherWayToImplementRedis.Repositories
         {
             try
             {
-                var userObject = await _distributedCache.GetAsync(user.Id, cancellationToken);
+                var userObject = await _distributedCache.GetAsync(user.cpfCnpj, cancellationToken);
 
                 if (userObject != null)
                     throw new InvalidOperationException("Existing user");
 
                 await _distributedCache.SetStringAsync(
-                    user.Id,
+                    user.cpfCnpj,
                     JsonSerializer.Serialize(user),
                     cancellationToken);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"[UserRepository][SetUser] => EXCEPTION: {ex.Message}");
+                _logger.LogError($"[UserRepository][SetUserAsync] => EXCEPTION: {ex.Message}");
                 throw;
             }
         }
 
-        public async Task<UserModel?> GetUserAsync(string userId, CancellationToken cancellationToken)
+        public async Task<UserModel?> GetUserAsync(string key, CancellationToken cancellationToken)
         {
             try
             {
-                var userObject = await _distributedCache.GetAsync(userId, cancellationToken);
+                var userObject = await _distributedCache.GetAsync(key, cancellationToken);
 
                 if (userObject == null)
                     return null;
@@ -53,7 +53,7 @@ namespace AnotherWayToImplementRedis.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError($"[UserRepository][GetUser] => EXCEPTION: {ex.Message}");
+                _logger.LogError($"[UserRepository][GetUserAsync] => EXCEPTION: {ex.Message}");
                 throw;
             }
         }
@@ -62,31 +62,31 @@ namespace AnotherWayToImplementRedis.Repositories
         {
             try
             {
-                var userObject = await _distributedCache.GetAsync(user.Id, cancellationToken);
+                var userObject = await _distributedCache.GetAsync(user.cpfCnpj, cancellationToken);
 
                 if (userObject != null)
                     await _distributedCache.SetStringAsync(
-                        user.Id,
+                        user.cpfCnpj,
                         JsonSerializer.Serialize(user),
                         cancellationToken);
 
             }
             catch (Exception ex)
             {
-                _logger.LogError($"[UserRepository][UpdateUser] => EXCEPTION: {ex.Message}");
+                _logger.LogError($"[UserRepository][UpdateUserAsync] => EXCEPTION: {ex.Message}");
                 throw;
             }
         }
 
-        public async Task DeleteUserAsync(string userId, CancellationToken cancellationToken)
+        public async Task DeleteUserAsync(string key, CancellationToken cancellationToken)
         {
             try
             {
-                await _distributedCache.RemoveAsync(userId, cancellationToken);
+                await _distributedCache.RemoveAsync(key, cancellationToken);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"[UserRepository][DeleteUser] => EXCEPTION: {ex.Message}");
+                _logger.LogError($"[UserRepository][DeleteUserAsync] => EXCEPTION: {ex.Message}");
                 throw;
             }
         }
