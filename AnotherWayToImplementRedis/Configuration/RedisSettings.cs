@@ -13,11 +13,16 @@ namespace AnotherWayToImplementRedis.Configuration
             builder.Services.AddStackExchangeRedisCache(options =>
             {
                 options.InstanceName = configurations.Instance;
-                options.Configuration = configurations.Connection;
                 options.ConfigurationOptions = new ConfigurationOptions()
                 {
-                    ConnectTimeout = configurations.ConnectTimeout,                                        
-                    ConnectRetry = configurations.ConnectRetry
+                    EndPoints = { configurations.Connection },
+                    AbortOnConnectFail = false,
+                    ReconnectRetryPolicy = new LinearRetry(1500),
+                    ConnectRetry = configurations.ConnectRetry,
+                    ConnectTimeout = configurations.ConnectTimeout,
+                    AsyncTimeout = 10000,
+                    Ssl = false,
+                    DefaultDatabase = 0
                 };
             });
         }
