@@ -23,19 +23,19 @@ namespace AnotherWayToImplementRedis.Repositories
         {
             try
             {
-                var userObject = await _distributedCache.GetAsync(user.cpfCnpj, cancellationToken);
+                var userObject = await _distributedCache.GetAsync(user.CpfCnpj, cancellationToken);
 
                 if (userObject != null)
                     throw new InvalidOperationException("Existing user");
 
                 await _distributedCache.SetStringAsync(
-                    user.cpfCnpj,
+                    user.CpfCnpj,
                     JsonSerializer.Serialize(user),
                     cancellationToken);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"[UserRepository][SetUserAsync] => EXCEPTION: {ex.Message}");
+                _logger.LogError("[UserRepository][SetUserAsync] => EXCEPTION: {ex.Message}", ex.Message);
                 throw;
             }
         }
@@ -53,7 +53,7 @@ namespace AnotherWayToImplementRedis.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError($"[UserRepository][GetUserAsync] => EXCEPTION: {ex.Message}");
+                _logger.LogError("[UserRepository][GetUserAsync] => EXCEPTION: {ex.Message}", ex.Message);
                 throw;
             }
         }
@@ -62,18 +62,18 @@ namespace AnotherWayToImplementRedis.Repositories
         {
             try
             {
-                var userObject = await _distributedCache.GetAsync(user.cpfCnpj, cancellationToken);
+                var userObject = await _distributedCache.GetAsync(user.CpfCnpj, cancellationToken);
 
                 if (userObject != null)
                     await _distributedCache.SetStringAsync(
-                        user.cpfCnpj,
+                        user.CpfCnpj,
                         JsonSerializer.Serialize(user),
                         cancellationToken);
 
             }
             catch (Exception ex)
             {
-                _logger.LogError($"[UserRepository][UpdateUserAsync] => EXCEPTION: {ex.Message}");
+                _logger.LogError("[UserRepository][UpdateUserAsync] => EXCEPTION: {ex.Message}", ex.Message);
                 throw;
             }
         }
@@ -86,7 +86,7 @@ namespace AnotherWayToImplementRedis.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError($"[UserRepository][DeleteUserAsync] => EXCEPTION: {ex.Message}");
+                _logger.LogError("[UserRepository][DeleteUserAsync] => EXCEPTION: {ex.Message}", ex.Message);
                 throw;
             }
         }

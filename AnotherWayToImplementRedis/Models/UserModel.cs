@@ -8,7 +8,7 @@ namespace AnotherWayToImplementRedis.Models
         [Required]
         [RegularExpression("([0-9]+)", ErrorMessage = "Please enter numbers only in Cpf/Cnpj")]
         [MaxLength(14, ErrorMessage = "Cpf/Cnpj must not be longer than 14 characters")]
-        public string cpfCnpj { get; set; }
+        public string CpfCnpj { get; set; }
         public string Name { get; set; }
 
         [JsonIgnore]
@@ -16,7 +16,7 @@ namespace AnotherWayToImplementRedis.Models
 
         public bool IsValid()
         {
-            return !string.IsNullOrEmpty(cpfCnpj) && !string.IsNullOrEmpty(Name);
+            return !string.IsNullOrEmpty(CpfCnpj) && !string.IsNullOrEmpty(Name);
         }
     }
 }
