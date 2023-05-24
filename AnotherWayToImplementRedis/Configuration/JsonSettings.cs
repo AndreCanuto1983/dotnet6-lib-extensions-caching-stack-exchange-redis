@@ -2,9 +2,9 @@
 
 namespace AnotherWayToImplementRedis.Configuration
 {
-    public static class ServiceExtension
+    public static class JsonSettings
     {
-        public static void ServiceExtensionSettings(this IServiceCollection services)
+        public static void ConfigureJson(this IServiceCollection services)
         {
             services.AddControllers()
                     .AddJsonOptions(options =>
